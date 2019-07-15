@@ -1,24 +1,14 @@
-# README
+# Codewords Server
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the server side of the Codewords game. It manages game state and handles turn logic, however it does not have a built-in front-end. You will also need the Codewords UI available within this organization.
 
-Things you may want to cover:
+### Requirements
 
-* Ruby version
+- Ruby 2.6.3
+- Rails 5.2.3
+- This server
 
-* System dependencies
+### Setup
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+01. Clone this repository and run `bundle install`.
+02. Start the server with `rails s`
