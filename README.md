@@ -11,7 +11,9 @@ This is the server side of the Codewords game. It manages game state and handles
 ### Setup
 
 01. Clone this repository and run `bundle install`.
-02. Start the server with `rails s`
+02. Prepare database with `rails db:create`
+03. Migrate with `rails db:migrate`
+04. Start the server with `rails s`
 
 
 ### Schema
