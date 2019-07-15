@@ -12,3 +12,8 @@ This is the server side of the Codewords game. It manages game state and handles
 
 01. Clone this repository and run `bundle install`.
 02. Start the server with `rails s`
+
+
+### Schema
+
+[![Database Schema Diagram](schema.png)](https://dbdiagram.io/d/5d28ffa3ced98361d6dc9ccb)
