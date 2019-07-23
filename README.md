@@ -493,3 +493,41 @@ This message is broadcast to all players after a valid [Guess Sent](#guess-sent)
 |`-->card.flipped` |Boolean: The flipped state of the card (always `true`).|
 |`-->card.type`    |String: The type of card to render in the UI: "red", "blue", "bystander", or "assassin".|
 |`data.winningTeam`|String: The team that won the game.|
+
+---
+
+### Illegal Action
+
+This message is broadcast to all players after any illegal action is performed by a player in a [Hint Sent](#hint-sent) or [Game Sent](#guess-sent) action.
+
+##### Payload
+
+```js
+{
+  type: 'illegal-action',
+  data: {
+    error: "<descriptive message>",
+    byPlayerId: 1
+  }
+}
+```
+
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
+|:---             |:--- |
+|`type`           |String: The type of message being broadcast.|
+|`data`           |Object: The data payload of the message.|
+|`data.error`     |String: The descriptive error message.|
+|`data.byPlayerId`|Integer: The ID of the player who performed the illegal action.|
+
+<details><summary>The potential illegal actions that are anticipated and caught are:</summary>
+
+- The player performing the action is not the current player
+  - "<player name> attempted to submit a (hint/guess) out of turn"
+- The player performed an action during their turn, but does not have the correct role for that action
+  - "<player name> attempted to submit a (hint/guess), but does't have the (Intel/Spy) role"
+- An Intel player submits a multi-word hint during their turn
+  - "<player name> attempted to submit an invalid hint"
+- A Spy player submits a guess with a card ID not present in this game
+  - "<player name> attempted to submit a guess for a card not in this game"
+
+</details>
