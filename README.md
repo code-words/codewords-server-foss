@@ -305,8 +305,6 @@ This message is broadcast to the game channel whenever a player joins the game. 
 }
 ```
 
-<div class="ws-doc-table">
-
 |key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
 |:---               |:--- |
 |`type`             |String: The type of message being broadcast.|
@@ -316,8 +314,6 @@ This message is broadcast to the game channel whenever a player joins the game. 
 |`data.playerRoster`|Array: A collection of `player` objects for all players currently in the game, **ordered by** the time they joined the lobby.|
 |`-->player.id`     |Integer: The unique id of the given player.|
 |`-->player.name`   |String: The name of the given player.|
-
-</div>
 
 ---
 
@@ -351,7 +347,6 @@ This message is broadcast to the game channel once the final player has joined t
   }
 }
 ```
-<div class="ws-doc-table">
 
 |key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---                  |:--- |
@@ -367,4 +362,49 @@ This message is broadcast to the game channel once the final player has joined t
 |`-->player.isIntel`   |Boolean: `true` if the player has the Intel role, `false` if they don't.|
 |`data.firstTeam`      |String: The team that will play first: "red" or "blue".|
 
-</div>
+---
+
+### Hint Sent
+
+This message is sent from the game client to the server by the current player. So long as the sender is the current player and has the Intel role, and the hint is a single-word string, this will generate a [Hint Provided](#hint-provided) broadcast to all players. If any of these requirements are not met, the appropriate [Illegal Action](#illegal-action) message will be broadcast instead.
+
+##### Call
+
+```js
+cable.sendHint({
+  hintWord: "tree",
+  numCards: 3
+})
+```
+
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
+|:---      |:--- |
+|`hintWord`|String: A single word hint.|
+|`numCards`|Integer: The number of cards to which the hint is related.|
+
+---
+
+### Hint Provided
+
+This message is broadcast to all players after a valid [Hint Sent](#hint-sent) action is performed by a player. After receiving this message, play will proceed to the Spy player on the same team. The Spy will be allowed one more guess than the number of related cards.
+
+##### Payload
+
+```js
+{
+  type: 'hint-provided',
+  data: {
+    isBlueTeam: true,
+    hintWord: "tree",
+    relatedCards: 3
+  }
+}
+```
+
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
+|:---               |:--- |
+|`type`             |String: The type of message being broadcast.|
+|`data`             |Object: The data payload of the message.|
+|`data.isBlueTeam`  |Boolean: Whether the hint belongs to the Blue team or not.|
+|`data.hintWord`    |String: The hint word provided by the player.|
+|`data.relatedCards`|Integer: The number of cards this hint is related to.|
