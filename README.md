@@ -408,3 +408,56 @@ This message is broadcast to all players after a valid [Hint Sent](#hint-sent) a
 |`data.isBlueTeam`  |Boolean: Whether the hint belongs to the Blue team or not.|
 |`data.hintWord`    |String: The hint word provided by the player.|
 |`data.relatedCards`|Integer: The number of cards this hint is related to.|
+
+
+---
+
+### Guess Sent
+
+This message is sent from the game client to the server by the current player. So long as the sender is the current player and has the Spy role, and the provided ID matches a card in the current game, this will generate a [Board Update](#board-update) broadcast to all players. If any of these requirements are not met, the appropriate [Illegal Action](#illegal-action) message will be broadcast instead.
+
+##### Call
+
+```js
+cable.sendGuess({
+  id: 1
+})
+```
+
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
+|:--- |:--- |
+|`id` |Integer: The ID of the guessed card.|
+
+---
+
+### Board Update
+
+This message is broadcast to all players after a valid [Guess Sent](#guess-sent) action is performed by a player. After receiving this message, play will proceed to the `currentPlayer` provided in the response.
+
+##### Payload
+
+```js
+{
+  type: 'board-update',
+  data: {
+    card: {
+      id: 1,
+      flipped: true,
+      type: "red"
+    },
+    remainingAttempts: 2,
+    currentPlayer: 1
+  }
+}
+```
+
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
+|:---                    |:--- |
+|`type`                  |String: The type of message being broadcast.|
+|`data`                  |Object: The data payload of the message.|
+|`data.card`             |Object: Data about the card that was guessed.|
+|`-->card.id`            |Integer: The ID of the guessed card.|
+|`-->card.flipped`       |Boolean: The flipped state of the card (always `true`).|
+|`-->card.type`          |String: The type of card to render in the UI: "red", "blue", "bystander", or "assassin".|
+|`data.remainingAttempts`|Integer: The number of guesses remaining.|
+|`data.currentPlayer`    |Integer: The ID of the current player.|
