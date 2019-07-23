@@ -414,7 +414,7 @@ This message is broadcast to all players after a valid [Hint Sent](#hint-sent) a
 
 ### Guess Sent
 
-This message is sent from the game client to the server by the current player. So long as the sender is the current player and has the Spy role, and the provided ID matches a card in the current game, this will generate a [Board Update](#board-update) broadcast to all players. If any of these requirements are not met, the appropriate [Illegal Action](#illegal-action) message will be broadcast instead.
+This message is sent from the game client to the server by the current player. So long as the sender is the current player and has the Spy role, and the provided ID matches a card in the current game, this will generate a [Board Update](#board-update) broadcast to all players, unless the guess causes the game to end, in which case the [Game Over](#game-over) message will be broadcast instead. If any of these requirements are not met, the appropriate [Illegal Action](#illegal-action) message will be broadcast instead.
 
 ##### Call
 
@@ -432,7 +432,7 @@ cable.sendGuess({
 
 ### Board Update
 
-This message is broadcast to all players after a valid [Guess Sent](#guess-sent) action is performed by a player. After receiving this message, play will proceed to the `currentPlayer` provided in the response.
+This message is broadcast to all players after a valid [Guess Sent](#guess-sent) action is performed by a player, unless the guess causes the game to end (in which case, the [Game Over](#game-over) message will be broadcast instead). After receiving this message, play will proceed to the `currentPlayer` provided in the response.
 
 ##### Payload
 
@@ -461,3 +461,35 @@ This message is broadcast to all players after a valid [Guess Sent](#guess-sent)
 |`-->card.type`          |String: The type of card to render in the UI: "red", "blue", "bystander", or "assassin".|
 |`data.remainingAttempts`|Integer: The number of guesses remaining.|
 |`data.currentPlayer`    |Integer: The ID of the current player.|
+
+---
+
+### Game Over
+
+This message is broadcast to all players after a valid [Guess Sent](#guess-sent) action causes the game to end. After receiving this message, the game UI will render the end state.
+
+##### Payload
+
+```js
+{
+  type: 'game-over',
+  data: {
+    card: {
+      id: 1,
+      flipped: true,
+      type: "red"
+    },
+    winningTeam: "red"
+  }
+}
+```
+
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
+|:---              |:--- |
+|`type`            |String: The type of message being broadcast.|
+|`data`            |Object: The data payload of the message.|
+|`data.card`       |Object: Data about the card that was guessed.|
+|`-->card.id`      |Integer: The ID of the guessed card.|
+|`-->card.flipped` |Boolean: The flipped state of the card (always `true`).|
+|`-->card.type`    |String: The type of card to render in the UI: "red", "blue", "bystander", or "assassin".|
+|`data.winningTeam`|String: The team that won the game.|
