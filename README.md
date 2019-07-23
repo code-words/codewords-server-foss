@@ -522,12 +522,12 @@ This message is broadcast to all players after any illegal action is performed b
 <details><summary>The potential illegal actions that are anticipated and caught are:</summary>
 
 - The player performing the action is not the current player
-  - "<player name> attempted to submit a (hint/guess) out of turn"
+  - "\<player name\> attempted to submit a (hint/guess) out of turn"
 - The player performed an action during their turn, but does not have the correct role for that action
-  - "<player name> attempted to submit a (hint/guess), but does't have the (Intel/Spy) role"
+  - "\<player name\> attempted to submit a (hint/guess), but does't have the (Intel/Spy) role"
 - An Intel player submits a multi-word hint during their turn
-  - "<player name> attempted to submit an invalid hint"
+  - "\<player name\> attempted to submit an invalid hint"
 - A Spy player submits a guess with a card ID not present in this game
-  - "<player name> attempted to submit a guess for a card not in this game"
+  - "\<player name\> attempted to submit a guess for a card not in this game"
 
 </details>
