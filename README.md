@@ -1,6 +1,6 @@
 # Codewords Server [![Build Status](https://travis-ci.com/code-words/codewords-server.svg?branch=dev)](https://travis-ci.com/code-words/codewords-server)
 
-This is the server side of the Codewords game. It manages game state and handles turn logic, however it does not have a built-in front-end. You will also need the Codewords UI available within this organization.
+This is the server side of the [Codewords](http://playcodewords.com) game. It manages game state and handles turn logic, however it does not have a built-in front-end. You will also need the Codewords UI available within this organization.
 
 ### Requirements
 
@@ -84,7 +84,7 @@ POST /api/v1/games
   "name": "Archer"
 }
 ```
-|key   |description|
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---: |:--- |
 |`name`|String: The username that the requesting user would like to use during the game|
 
@@ -100,7 +100,7 @@ HTTP/1.1 201 Created
   "token": "uuxHQc7djqQuzWgJxAp5r1vy"
 }
 ```
-|key          |description|
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---:        |:--- |
 |`invite_code`|String: A code which can be shared with other players. They will use this code to join the game.|
 |`id`         |Integer: The unique id for the player.|
@@ -137,7 +137,7 @@ POST /api/v1/games/:invite_code/players
   "name": "Lana"
 }
 ```
-|key           |description|
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---:         |:--- |
 |`:invite_code`|String: (Within URI) The invite code provided by the person inviting the requesting user to their existing game.|
 |`name`        |String: The username that the requesting user would like to use during the game|
@@ -153,7 +153,7 @@ HTTP/1.1 200 OK
   "token": "uuxHQc7djqQuzWgJxAp5r1vy"
 }
 ```
-|key    |description|
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---:  |:--- |
 |`id`   |Integer: The unique id for the player.|
 |`name` |String: A confirmation that the requested name was indeed assigned to the player.|
@@ -217,7 +217,7 @@ Request the Intel data for a game, allowing the player to see which cards belong
 ```http
 GET /api/v1/intel?token=<player_token>
 ```
-|key    |description|
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---:  |:--- |
 |`token`|String: A valid token belonging to a Player with the Intel role.|
 
@@ -236,7 +236,7 @@ HTTP/1.1 200 OK
   ]
 }
 ```
-|key           |description|
+|key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|description|
 |:---:         |:--- |
 |`cards`       |Array: An **ordered** collection of `card` objects which are part of the game. These cards go onto the board left-to-right, top-to-bottom.|
 |`-->card.id`  |Integer: The unique identifier for the card.|
