@@ -42,9 +42,23 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = 'wss://example.com/cable'
-  # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
+  config.action_cable.mount_path = '/cable/:token'
+  if ENV['HEROKU_STAGING']
+    config.action_cable.url = 'wss://codewords-server-staging.herokuapp.com/cable'
+    config.action_cable.allowed_request_origins = [
+      'https://codewords-game-staging.herokuapp.com',
+      'http://localhost:3000'
+    ]
+  else
+    config.action_cable.url = 'wss://codewords-server.herokuapp.com/cable'
+    config.action_cable.allowed_request_origins = [
+      'https://codewords-game.herokuapp.com',
+      'https://www.playcodewords.com',
+      'http://www.playcodewords.com',
+      'https://playcodewords.com',
+      'http://playcodewords.com'
+    ]
+  end
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
