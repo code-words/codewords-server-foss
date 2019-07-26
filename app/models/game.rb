@@ -20,6 +20,13 @@ class Game < ApplicationRecord
     cp = self.current_player
     opposing_team = cp.red? ? :blue : :red
 
+    # Handle Ending Guesses Early
+    if card_id == nil
+      @turn_card = nil
+      self.advance!
+      return guess_response
+    end
+
     @turn_card = all_cards.find{|card| card.id == card_id.to_i}
     @turn_card.update_attribute(:chosen, true)
     self.guesses.create(team: cp.team, game_card: @turn_card)
@@ -88,6 +95,7 @@ class Game < ApplicationRecord
   end
 
   def includes_card?(id)
+    return true if id == nil # player passed
     card_ids = self.game_cards.pluck :id
     card_ids.include? id.to_i
   end
