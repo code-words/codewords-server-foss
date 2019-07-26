@@ -52,10 +52,10 @@ class GameDataChannel < ApplicationCable::Channel
       illegal_action("#{current_player.name} attempted to submit a guess out of turn")
     elsif !current_player.spy?
       illegal_action("#{current_player.name} attempted to submit a guess, but doesn't have the Spy role")
-    elsif !game.includes_card?(card["id"].to_i)
+    elsif !game.includes_card?(card["id"])
       illegal_action("#{current_player.name} attempted to submit a guess for a card not in this game")
     else
-      contents = game.process_guess(card["id"].to_i)
+      contents = game.process_guess(card["id"])
       if game.over?
         game.save
         game_over contents
