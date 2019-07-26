@@ -20,7 +20,7 @@ class Game < ApplicationRecord
     cp = self.current_player
     opposing_team = cp.red? ? :blue : :red
 
-    @turn_card = all_cards.find{|card| card.id == card_id}
+    @turn_card = all_cards.find{|card| card.id == card_id.to_i}
     @turn_card.update_attribute(:chosen, true)
     self.guesses.create(team: cp.team, game_card: @turn_card)
 
@@ -89,7 +89,7 @@ class Game < ApplicationRecord
 
   def includes_card?(id)
     card_ids = self.game_cards.pluck :id
-    card_ids.include? id
+    card_ids.include? id.to_i
   end
 
   private
