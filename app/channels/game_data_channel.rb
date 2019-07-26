@@ -113,6 +113,18 @@ class GameDataChannel < ApplicationCable::Channel
       end
     end
 
+    def compose_card(card)
+      if card
+        return {
+          id: card.id,
+          flipped: card.chosen,
+          type: card.category
+        }
+      else
+        return nil
+      end
+    end
+
     ##     ## ########  ######   ######     ###     ######   ########  ######
     ###   ### ##       ##    ## ##    ##   ## ##   ##    ##  ##       ##    ##
     #### #### ##       ##       ##        ##   ##  ##        ##       ##
@@ -164,14 +176,11 @@ class GameDataChannel < ApplicationCable::Channel
     end
 
     def board_update(details)
+      card = compose_card details[:card]
       payload = {
         type: "board-update",
         data: {
-          card: {
-            id: details[:card].id,
-            flipped: details[:card].chosen,
-            type: details[:card].category
-          },
+          card: card,
           remainingAttempts: details[:remainingAttempts],
           currentPlayerId: details[:currentPlayer].id
         }
