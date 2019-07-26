@@ -124,7 +124,7 @@ describe GameDataChannel, type: :channel do
       guess_id = Random.rand(499) + 1 # ensure not 0
     end
 
-    expect{subscription.send_guess(id: guess_id)}
+    expect{subscription.send_guess({"id" => guess_id})}
       .to have_broadcasted_to(@game)
       .from_channel(GameDataChannel)
       .once
@@ -135,6 +135,40 @@ describe GameDataChannel, type: :channel do
         payload = message[:data]
         expect(payload[:error]).to eq("#{built_player.name} attempted to submit a guess for a card not in this game")
         expect(payload[:byPlayerId]).to eq(built_player.id)
+      }
+  end
+
+  it 'advances the game if player ends turn early' do
+    spy = @game.players.create(user: User.create(name: "Cheryl"), role: :spy, team: :red)
+    stub_connection current_player: spy
+    subscription = subscribe
+
+    built_player = Player.find(spy.id)
+    built_player.update(role: :spy)
+    @game.current_player = built_player
+    @game.guesses_remaining = 1
+    @game.save
+    teammate = Player.where(game: @game, team: built_player.team).where.not(id: built_player.id).first
+    teammate.update(role: :intel)
+
+    guess_card = @game.game_cards.where(category: :bystander).first
+    opposing_team = built_player.blue? ? :red : :blue
+    next_player = @game.players.where(team: opposing_team, role: :intel).first
+
+    expect{subscription.send_guess({"id" => nil})}
+      .to have_broadcasted_to(@game)
+      .from_channel(GameDataChannel)
+      .once
+      .with{ |data|
+        message = JSON.parse(data[:message], symbolize_names: true)
+        expect(message[:type]).to eq("board-update")
+
+        payload = message[:data]
+        received_card = payload[:card]
+        expect(received_card).to eq(nil)
+
+        expect(payload[:remainingAttempts]).to eq(0)
+        expect(payload[:currentPlayerId]).to eq(next_player.id)
       }
   end
 
