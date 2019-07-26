@@ -418,6 +418,8 @@ This message is broadcast to all players after a valid [Hint Sent](#hint-sent) a
 
 This message is sent from the game client to the server by the current player. So long as the sender is the current player and has the Spy role, and the provided ID matches a card in the current game, this will generate a [Board Update](#board-update) broadcast to all players, unless the guess causes the game to end, in which case the [Game Over](#game-over) message will be broadcast instead. If any of these requirements are not met, the appropriate [Illegal Action](#illegal-action) message will be broadcast instead.
 
+If the Spy elects not to use all their guesses, they may pass. To convey a pass to the server, this message should be sent with `id: null`.
+
 ##### Call
 
 ```js
@@ -428,7 +430,7 @@ cable.sendGuess({
 
 |key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
 |:--- |:--- |
-|`id` |Integer: The ID of the guessed card.|
+|`id` |Integer: The ID of the guessed card, or `null` if player ends their guesses early.|
 
 ---
 
@@ -436,13 +438,15 @@ cable.sendGuess({
 
 This message is broadcast to all players after a valid [Guess Sent](#guess-sent) action is performed by a player, unless the guess causes the game to end (in which case, the [Game Over](#game-over) message will be broadcast instead). After receiving this message, play will proceed to the `currentPlayer` provided in the response.
 
+In the event that a Spy player decides to end their turn without taking all allowed guesses, the returned `card` will be `null` instead of an Object.
+
 ##### Payload
 
 ```js
 {
   type: 'board-update',
   data: {
-    card: {
+    card: { // {} or null
       id: 1,
       flipped: true,
       type: "red"
@@ -457,7 +461,7 @@ This message is broadcast to all players after a valid [Guess Sent](#guess-sent)
 |:---                    |:--- |
 |`type`                  |String: The type of message being broadcast.|
 |`data`                  |Object: The data payload of the message.|
-|`data.card`             |Object: Data about the card that was guessed.|
+|`data.card`             |Object: Data about the card that was guessed, or `null` if the player has ended their turn without making all allowed guesses.|
 |`-->card.id`            |Integer: The ID of the guessed card.|
 |`-->card.flipped`       |Boolean: The flipped state of the card (always `true`).|
 |`-->card.type`          |String: The type of card to render in the UI: "red", "blue", "bystander", or "assassin".|
