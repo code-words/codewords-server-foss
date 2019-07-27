@@ -1,5 +1,7 @@
 # Codewords Server [![Build Status](https://travis-ci.com/code-words/codewords-server.svg?branch=dev)](https://travis-ci.com/code-words/codewords-server)
 
+Created by: [Lynne Rang](https://github.com/lynnerang), [Justing Pyktel](https://github.com/SiimonStark), [Rachael Drennan](https://github.com/rdren0), and [Jon Peterson](https://github.com/joequincy)
+
 This is the server side of the [Codewords](http://playcodewords.com) game. It manages game state and handles turn logic, however it does not have a built-in front-end. You will also need the Codewords UI available within this organization.
 
 ### Requirements
