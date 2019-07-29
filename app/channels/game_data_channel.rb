@@ -201,7 +201,8 @@ class GameDataChannel < ApplicationCable::Channel
             flipped: details[:card].chosen,
             type: details[:card].category
           },
-          winningTeam: details[:winningTeam]
+          winningTeam: details[:winningTeam],
+          nextGame: details[:nextGame]
         }
       }
       broadcast_message payload

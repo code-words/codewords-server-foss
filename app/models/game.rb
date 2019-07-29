@@ -218,9 +218,11 @@ class Game < ApplicationRecord
     end
 
     def gameover_response
+      next_game = Game.create
       {
         card: @turn_card,
-        winningTeam: @winner
+        winningTeam: @winner,
+        nextGame: next_game.invite_code
       }
     end
 end
