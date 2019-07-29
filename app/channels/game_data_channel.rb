@@ -205,6 +205,7 @@ class GameDataChannel < ApplicationCable::Channel
         }
       }
       broadcast_message payload
+      disconnect_all_players(current_player.game)
     end
 
     ##     ## ######## ##       ########  ######## ########   ######
@@ -221,5 +222,11 @@ class GameDataChannel < ApplicationCable::Channel
 
     def all_players_in?(game)
       game.player_count == game.players.count{|p| p.subscribed?}
+    end
+
+    def disconnect_all_players(game)
+      game.players.each do |player|
+        ActionCable.server.remote_connections.where(current_player: player).disconnect
+      end
     end
 end
