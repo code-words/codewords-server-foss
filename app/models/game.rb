@@ -33,18 +33,18 @@ class Game < ApplicationRecord
 
     # Handle Gameover States
     if @turn_card.assassin?
-      @gameover = true
+      self.update(over: true)
       @winner = opposing_team
       return gameover_response
     else
       player_cards = all_cards.select{|card| card.category == cp.team}
       opposing_cards = all_cards.select{|card| card.category == opposing_team.to_s}
       if player_cards.all?{|card| card.chosen?}
-        @gameover = true
+        self.update(over: true)
         @winner = cp.team
         return gameover_response
       elsif opposing_cards.all?{|card| card.chosen?}
-        @gameover = true
+        self.update(over: true)
         @winner = opposing_team
         return gameover_response
       end
@@ -88,10 +88,6 @@ class Game < ApplicationRecord
 
   def full?
     users.size > 3
-  end
-
-  def over?
-    @gameover || false
   end
 
   def includes_card?(id)
