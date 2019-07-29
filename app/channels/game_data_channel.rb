@@ -3,8 +3,12 @@ class GameDataChannel < ApplicationCable::Channel
 
   def subscribed
     current_player.update(subscribed: true)
-    ensure_confirmation_sent
-    stream_for current_player.game
+    if current_player.game.over?
+      reject
+    else
+      ensure_confirmation_sent
+      stream_for current_player.game
+    end
   end
 
   def unsubscribed
