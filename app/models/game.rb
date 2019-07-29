@@ -218,6 +218,7 @@ class Game < ApplicationRecord
     end
 
     def gameover_response
+      self.update(current_player: nil)
       next_game = Game.create
       {
         card: @turn_card,
