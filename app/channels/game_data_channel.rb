@@ -12,7 +12,7 @@ class GameDataChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    current_player.update(subscribed: false)
   end
 
   def send_hint(hint)
