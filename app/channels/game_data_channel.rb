@@ -149,7 +149,7 @@ class GameDataChannel < ApplicationCable::Channel
     def start_game
       game = current_player.game
       game.reload
-      if all_players_in?(game)
+      if all_players_in?(game) && game.game_cards.count == 0
         game.establish!
 
         payload = {
