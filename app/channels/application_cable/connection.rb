@@ -10,7 +10,8 @@ module ApplicationCable
       def find_player
         #because there's no way to test the path_parameters
         token = request.path_parameters[:token] || request.params[:token]
-        if player = Player.find_by(token: token) && !player.game.over?
+        player = Player.find_by(token: token)
+        if player && !player.game.over?
           player
         else
           reject_unauthorized_connection
