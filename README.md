@@ -485,7 +485,8 @@ This message is broadcast to all players after a valid [Guess Sent](#guess-sent)
       flipped: true,
       type: "red"
     },
-    winningTeam: "red"
+    winningTeam: "red",
+    nextGame: "<invite code>"
   }
 }
 ```
@@ -499,6 +500,7 @@ This message is broadcast to all players after a valid [Guess Sent](#guess-sent)
 |`-->card.flipped` |Boolean: The flipped state of the card (always `true`).|
 |`-->card.type`    |String: The type of card to render in the UI: "red", "blue", "bystander", or "assassin".|
 |`data.winningTeam`|String: The team that won the game.|
+|`data.nextGame`   |String: An invite code for a new game. Provided automatically so all players can easily join the next game.|
 
 ---
 
